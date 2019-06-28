@@ -1,5 +1,56 @@
 <html>
   <meta charset="utf8" />
+  <style>
+    .btn {
+      color: white;
+      background: #666;
+      border: 0;
+      padding: 15px;
+    }
+    .btn:hover {
+      background: #aaa;
+    }
+
+    @keyframes mymove {
+      0%,
+      100% {
+        stroke: white;
+      }
+      10% {
+        stroke: black;
+      }
+      20% {
+        stroke: white;
+      }
+      30% {
+        stroke: black;
+      }
+      40% {
+        stroke: white;
+      }
+      50% {
+        stroke: black;
+      }
+      60% {
+        stroke: white;
+      }
+      70% {
+        stroke: black;
+      }
+      80% {
+        stroke: white;
+      }
+      90% {
+        stroke: black;
+      }
+    }
+    .logo {
+      position: relative;
+      left: -20%;
+      top: -20%;
+      animation: mymove 20s infinite;
+    }
+  </style>
   <body
     style="
   width: 100vw;
@@ -19,16 +70,34 @@ position: absolute;
 top: 50vh;
 left: 50vw;
     "
-    ></div>
-    <button onclick="doStuff()">do stuff</button>
+    >
+      <svg
+        class="logo"
+        viewBox="0 0 296 364"
+        width="200"
+        height="200"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-width="7"
+          d="M3.902 108L109 5l182.902 96L281 267l-117.098 21L20 253z"
+        />
+        <path
+          stroke-width="8"
+          d="M3.902 108L78 123 109 5M78 123c10 18 38.634 73 85.902 165M78 123l213.902-22M191 112l-28 174M78 123L20 253"
+        />
+      </svg>
+    </div>
+    <button onclick="startListening()">Start listening</button>
 
     <form id="colorForm">
       <input type="color" name="favcolor" value="#B0D4FF" />
       <input type="color" name="favcolor2" value="#3E0071" />
-      <button type="submit">change</button>
+      <button type="submit" class="btn">Change</button>
     </form>
 
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js" />
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script>
       const container = document.getElementById("container");
@@ -77,7 +146,7 @@ left: 50vw;
         calculateStuff(frequencyArray);
       };
 
-      function doStuff() {
+      function startListening() {
         document.getElementsByTagName("button")[0].disabled = true;
         navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
           window.persistAudioStream = stream;
