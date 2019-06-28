@@ -95,8 +95,43 @@
     .dn {
       display: none;
     }
+
+    .menuItem {
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .menuItem span {
+      color: white;
+      font-weight: lighter;
+      font-family: Helvetica, serif;
+      padding-left: 10px;
+    }
+    .menuItem:hover span {
+      color: #89216b;
+    }
   </style>
   <body>
+    <div class="menu">
+      <div class="menuItem" onclick="changeColor('#659999', '#f4791f')">
+        <img src="rap.svg" />
+        <span>Rap</span>
+      </div>
+
+      <div class="menuItem" onclick="changeColor('#74ebd5', '#acb6e5')">
+        <img src="bluegrass.svg" />
+        <span>Bluegrass</span>
+      </div>
+      <div class="menuItem" onclick="changeColor('#da4453', '#89216b')">
+        <img src="pop.svg" />
+        <span>Pop</span>
+      </div>
+      <div class="menuItem" onclick="changeColor('#c31432', '#240b36')">
+        <img src="metal.svg" />
+        <span>Metal</span>
+      </div>
+    </div>
     <div id="container">
       <svg
         class="logo dn"
@@ -117,28 +152,16 @@
     </div>
     <button id="startButton" onclick="startListening()">Start listening</button>
 
-    <form id="colorForm">
-      <button type="submit" class="btn">Change</button>
-      <br />
-      <input type="color" name="favcolor" value="#B0D4FF" />
-      <br />
-      <input type="color" name="favcolor2" value="#3E0071" />
-    </form>
-
     <script>
       const totalLines = 512;
       const container = document.getElementById("container");
       const linePieces = [];
 
-      document.getElementById("colorForm").addEventListener("submit", e => {
-        e.preventDefault();
+      function changeColor(color, color2) {
         linePieces.forEach(line => {
-          line.style.background = `linear-gradient(${e.target[0].value}, ${
-            e.target[1].value
-          })`;
+          line.style.background = `linear-gradient(${color}, ${color2})`;
         });
-      });
-
+      }
       for (let linePiece = 0; linePiece < totalLines; linePiece++) {
         const piece = document.createElement("div");
         piece.style.cssText = `
