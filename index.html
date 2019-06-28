@@ -7,37 +7,52 @@ margin: 0;
 padding: 0;
 height: 100vh;
 
-background-color: #eee;
+background-color: #000;
   "
   >
     <div
       id="container"
       style="
-height: 50vw;
-width: 50vw;
+height: 40vh;
+width: 40vw;
 position: absolute;
-top: 25vw;
-left: 25vw;
+top: 50vh;
+left: 50vw;
     "
-    >
-  </div>
+    ></div>
     <button onclick="doStuff()">do stuff</button>
+
+    <form id="colorForm">
+      <input type="color" name="favcolor" value="#B0D4FF" />
+      <input type="color" name="favcolor2" value="#3E0071" />
+      <button type="submit">change</button>
+    </form>
+
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script>
       const container = document.getElementById("container");
       const linePieces = [];
-      for (let linePiece = 0; linePiece < 256; linePiece++) {
-        const piece = document.createElement("div");
 
+      document.getElementById("colorForm").addEventListener("submit", e => {
+        e.preventDefault();
+        linePieces.forEach(line => {
+          line.style.background = `linear-gradient(${e.target[0].value}, ${
+            e.target[1].value
+          })`;
+        });
+      });
+
+      const totalLines = 512;
+      for (let linePiece = 0; linePiece < totalLines; linePiece++) {
+        const piece = document.createElement("div");
         piece.style.cssText = `
           height: 1px;
-          width: ${(1 / 256) * 100}%;
+          width: ${(3 / totalLines) * 100}%;
           position: absolute;
-          top: ${Math.sin(linePiece / 256 * Math.PI) * 100}%;
-          left: ${Math.cos(linePiece / 256 * Math.PI) * 100}%;
-          background-color: rgb(${linePiece}, ${linePiece}, ${linePiece});
-          left: ${(linePiece / 256) * 100}%
+          top: ${Math.cos((linePiece / totalLines) * 2 * Math.PI) * 100}%;
+          left: ${Math.sin((linePiece / totalLines) * 2 * Math.PI) * 100}%;
+          background: linear-gradient(#B0D4FF, #3E0071);
         `;
 
         container.appendChild(piece);
@@ -46,9 +61,11 @@ left: 25vw;
 
       const calculateStuff = array => {
         const frequencyArray = array.slice(0, 256);
-        frequencyArray.forEach((frequency, index) => {
-          linePieces[index].style.height = 1 + frequency + "px";
-        });
+        [...frequencyArray.reverse(), ...frequencyArray.reverse()].forEach(
+          (frequency, index) => {
+            linePieces[index].style.height = 1 + frequency + "px";
+          }
+        );
       };
 
       const chunks = 3;
