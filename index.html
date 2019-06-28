@@ -11,68 +11,64 @@
       background: #aaa;
     }
 
-    @keyframes mymove {
+    @keyframes logo-anim {
       0%,
       100% {
-        stroke: white;
-      }
-      10% {
         stroke: black;
-      }
-      20% {
-        stroke: white;
-      }
-      30% {
-        stroke: black;
-      }
-      40% {
-        stroke: white;
       }
       50% {
-        stroke: black;
-      }
-      60% {
         stroke: white;
-      }
-      70% {
-        stroke: black;
-      }
-      80% {
-        stroke: white;
-      }
-      90% {
-        stroke: black;
       }
     }
     .logo {
       position: relative;
       left: -20%;
       top: -20%;
-      animation: mymove 20s infinite;
+      animation: logo-anim 10s infinite;
+    }
+
+    body {
+      width: 100vw;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-color: #000;
+    }
+    #container {
+      height: 40vh;
+      width: 40vw;
+      position: absolute;
+      top: 50vh;
+      left: 50vw;
+    }
+    #startButton {
+      position: absolute;
+      left: calc(50vw - 100px);
+      top: calc(50vh - 25px);
+      width: 200px;
+      font-size: 26px;
+      font-weight: lighter;
+      color: white;
+      background: transparent;
+      border: 0;
+      padding-top: 10px;
+      padding-bottom: 20px;
+      border-bottom: 3px solid black;
+      transition: border-bottom-color 0.2s ease;
+      cursor: pointer;
+    }
+
+    #startButton:hover {
+      border-bottom-color: white;
+    }
+    .dn {
+      display: none;
     }
   </style>
-  <body
-    style="
-  width: 100vw;
-margin: 0;
-padding: 0;
-height: 100vh;
-
-background-color: #000;
-  "
-  >
-    <div
-      id="container"
-      style="
-height: 40vh;
-width: 40vw;
-position: absolute;
-top: 50vh;
-left: 50vw;
-    "
-    >
+  <body>
+    <div id="container">
       <svg
-        class="logo"
+        class="logo dn"
         viewBox="0 0 296 364"
         width="200"
         height="200"
@@ -88,12 +84,14 @@ left: 50vw;
         />
       </svg>
     </div>
-    <button onclick="startListening()">Start listening</button>
+    <button id="startButton" onclick="startListening()">Start listening</button>
 
     <form id="colorForm">
-      <input type="color" name="favcolor" value="#B0D4FF" />
-      <input type="color" name="favcolor2" value="#3E0071" />
       <button type="submit" class="btn">Change</button>
+      <br />
+      <input type="color" name="favcolor" value="#B0D4FF" />
+      <br />
+      <input type="color" name="favcolor2" value="#3E0071" />
     </form>
 
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
@@ -147,7 +145,8 @@ left: 50vw;
       };
 
       function startListening() {
-        document.getElementsByTagName("button")[0].disabled = true;
+        document.getElementById("startButton").style.display = "none";
+        document.getElementsByClassName("logo")[0].style.display = "block";
         navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
           window.persistAudioStream = stream;
           var audioContent = new AudioContext();
