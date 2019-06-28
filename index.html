@@ -138,10 +138,8 @@
       <input type="color" name="favcolor2" value="#3E0071" />
     </form>
 
-    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js" />
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script>
+      const totalLines = 512;
       const container = document.getElementById("container");
       const linePieces = [];
 
@@ -154,7 +152,6 @@
         });
       });
 
-      const totalLines = 512;
       for (let linePiece = 0; linePiece < totalLines; linePiece++) {
         const piece = document.createElement("div");
         piece.style.cssText = `
@@ -170,38 +167,35 @@
         linePieces.push(piece);
       }
 
-      const calculateStuff = array => {
-        const frequencyArray = array.slice(0, 256);
-        [...frequencyArray.reverse(), ...frequencyArray.reverse()].forEach(
-          (frequency, index) => {
-            linePieces[index].style.height = 1 + frequency + "px";
-          }
-        );
-      };
-
-      const chunks = 3;
       const doDraw = (analyser, frequencyArray) => () => {
         requestAnimationFrame(doDraw(analyser, frequencyArray));
 
         analyser.getByteFrequencyData(frequencyArray);
 
-        calculateStuff(frequencyArray);
+        const importantFrequencies = frequencyArray.slice(0, 256);
+        [
+          ...importantFrequencies.reverse(),
+          ...importantFrequencies.reverse()
+        ].forEach((frequency, index) => {
+          linePieces[index].style.height = 1 + frequency + "px";
+        });
       };
 
-      function startListening() {
+      async function startListening() {
         document.getElementById("startButton").style.display = "none";
         document.getElementsByClassName("logo")[0].style.display = "block";
-        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-          window.persistAudioStream = stream;
-          var audioContent = new AudioContext();
-          var audioStream = audioContent.createMediaStreamSource(stream);
-          var analyser = audioContent.createAnalyser();
-          audioStream.connect(analyser);
-          analyser.fftSize = 1024;
-          var frequencyArray = new Uint8Array(analyser.frequencyBinCount);
-
-          doDraw(analyser, frequencyArray)();
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true
         });
+        window.persistAudioStream = stream;
+        const audioContent = new AudioContext();
+        const audioStream = audioContent.createMediaStreamSource(stream);
+        const analyser = audioContent.createAnalyser();
+        audioStream.connect(analyser);
+        analyser.fftSize = 1024;
+        const frequencyArray = new Uint8Array(analyser.frequencyBinCount);
+
+        doDraw(analyser, frequencyArray)();
       }
     </script>
   </body>
