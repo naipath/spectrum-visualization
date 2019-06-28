@@ -182,8 +182,8 @@
       };
 
       async function startListening() {
-        document.getElementById("startButton").style.display = "none";
-        document.getElementsByClassName("logo")[0].style.display = "block";
+        document.getElementById("startButton").classList.toggle("dn");
+        document.getElementsByClassName("logo")[0].classList.toggle("dn");
         const stream = await navigator.mediaDevices.getUserMedia({
           audio: true
         });
