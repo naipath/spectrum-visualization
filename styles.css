@@ -1,0 +1,101 @@
+@keyframes logo-anim {
+  0% {
+    transform: skew(0deg, 0deg);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(-4px, 4px);
+  }
+  40% {
+    transform: translate(-4px, -4px);
+  }
+  50% {
+    opacity: 1;
+  }
+  58% {
+    transform: skew(0deg, 0deg);
+    filter: blur(0);
+  }
+  60% {
+    opacity: 1;
+    transform: skew(-20deg, 0deg) translate(4px, 4px);
+    filter: blur(4px);
+  }
+  62% {
+    transform: skew(20deg, 0deg);
+  }
+  64% {
+    transform: skew(0deg, 0deg);
+    filter: blur(0);
+  }
+  80% {
+    transform: translate(4px, -4px);
+  }
+  100% {
+    opacity: 0;
+    transform: skew(0deg, 0deg) translate(0);
+  }
+}
+
+.logo {
+  position: relative;
+  left: -15vmin;
+  top: -10vmin;
+  animation: logo-anim 3s infinite;
+  height: 30vmin;
+  width: 30vmin;
+}
+
+body {
+  width: 95vw;
+  margin: auto;
+  padding: 0;
+  height: 100vh;
+  background-color: #000;
+}
+#container {
+  height: 40vmin;
+  width: 40vmin;
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+}
+#startButton {
+  position: absolute;
+  left: calc(50vw - 100px);
+  top: calc(50vh - 25px);
+  width: 200px;
+  font-size: 26px;
+  font-weight: lighter;
+  color: white;
+  background: transparent;
+  border: 0;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid black;
+  transition: border-bottom-color 0.2s ease;
+  cursor: pointer;
+}
+
+#startButton:hover {
+  border-bottom-color: white;
+}
+.dn {
+  display: none;
+}
+
+.menuItem {
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.menuItem span {
+  color: white;
+  font-weight: lighter;
+  font-family: Helvetica, serif;
+  padding-left: 10px;
+}
+.menuItem:hover span {
+  color: #89216b;
+}
