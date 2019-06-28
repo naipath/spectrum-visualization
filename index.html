@@ -95,9 +95,6 @@
       <input type="color" name="favcolor2" value="#3E0071" />
     </form>
 
-    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js" />
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script>
       const container = document.getElementById("container");
       const linePieces = [];
@@ -136,7 +133,6 @@
         );
       };
 
-      const chunks = 3;
       const doDraw = (analyser, frequencyArray) => () => {
         requestAnimationFrame(doDraw(analyser, frequencyArray));
 
