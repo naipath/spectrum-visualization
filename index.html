@@ -13,19 +13,62 @@
     }
 
     @keyframes logo-anim {
-      0%,
-      100% {
+      0% {
         stroke: black;
+        transform: skew(0deg, 0deg);
       }
       50% {
         stroke: white;
       }
+      58% {
+        transform: skew(0deg, 0deg);
+        filter: blur(0);
+      }
+      60% {
+        stroke: white;
+        transform: skew(-20deg, 0deg);
+        filter: blur(4px);
+      }
+      62% {
+        transform: skew(20deg, 0deg);
+      }
+      64% {
+        transform: skew(0deg, 0deg);
+        filter: blur(0);
+      }
+      100% {
+        stroke: black;
+        transform: skew(0deg, 0deg);
+      }
     }
+    @keyframes glitch {
+      0% {
+        transform: translate(0);
+      }
+      20% {
+        transform: translate(-8px, 8px);
+      }
+      40% {
+        transform: translate(-8px, -8px);
+      }
+      60% {
+        transform: translate(8px, 8px);
+      }
+      80% {
+        transform: translate(8px, -8px);
+      }
+      100% {
+        transform: translate(0);
+      }
+
+    }
+
+
     .logo {
       position: relative;
-      left: -20%;
-      top: -20%;
-      animation: logo-anim 10s infinite;
+      left: -30%;
+      top: -30%;
+      animation: logo-anim 3s infinite;
     }
 
     body {
@@ -36,8 +79,8 @@
       background-color: #000;
     }
     #container {
-      height: 40vh;
-      width: 40vw;
+      height: 40vmin;
+      width: 40vmin;
       position: absolute;
       top: 50vh;
       left: 50vw;
