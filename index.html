@@ -4,8 +4,8 @@
   <style>
     @keyframes logo-anim {
       0% {
-        stroke: black;
         transform: skew(0deg, 0deg);
+        opacity: 0;
       }
       20% {
         transform: translate(-4px, 4px);
@@ -14,14 +14,14 @@
         transform: translate(-4px, -4px);
       }
       50% {
-        stroke: white;
+        opacity: 1;
       }
       58% {
         transform: skew(0deg, 0deg);
         filter: blur(0);
       }
       60% {
-        stroke: white;
+        opacity: 1;
         transform: skew(-20deg, 0deg) translate(4px, 4px);
         filter: blur(4px);
       }
@@ -36,7 +36,7 @@
         transform: translate(4px, -4px);
       }
       100% {
-        stroke: black;
+        opacity: 0;
         transform: skew(0deg, 0deg) translate(0);
       }
     }
@@ -110,7 +110,6 @@
         <img src="rap.svg" />
         <span>Rap</span>
       </div>
-
       <div class="menuItem" onclick="changeColor('#74ebd5', '#acb6e5')">
         <img src="bluegrass.svg" />
         <span>Bluegrass</span>
@@ -133,6 +132,7 @@
         class="logo dn"
         viewBox="0 0 296 364"
         xmlns="http://www.w3.org/2000/svg"
+        stroke="white"
       >
         <path
           stroke-width="7"
@@ -152,6 +152,7 @@
       const linePieces = [];
 
       function changeColor(color, color2) {
+        document.getElementsByClassName("logo")[0].style.stroke = color2;
         linePieces.forEach(line => {
           line.style.background = `linear-gradient(${color}, ${color2})`;
         });
