@@ -48,13 +48,6 @@
       const totalLines = 512;
       const container = document.getElementById("container");
       const linePieces = [];
-
-      function changeColor(color, color2) {
-        document.getElementsByClassName("logo")[0].style.stroke = color2;
-        linePieces.forEach(line => {
-          line.style.background = `linear-gradient(${color}, ${color2})`;
-        });
-      }
       for (let linePiece = 0; linePiece < totalLines; linePiece++) {
         const piece = document.createElement("div");
         piece.style.cssText = `
@@ -70,6 +63,13 @@
         linePieces.push(piece);
       }
 
+      function changeColor(color, color2) {
+        document.getElementsByClassName("logo")[0].style.stroke = color2;
+        linePieces.forEach(line => {
+          line.style.background = `linear-gradient(${color}, ${color2})`;
+        });
+      }
+
       const doDraw = (analyser, frequencyArray) => () => {
         requestAnimationFrame(doDraw(analyser, frequencyArray));
 
@@ -80,13 +80,14 @@
           ...importantFrequencies.reverse(),
           ...importantFrequencies.reverse()
         ].forEach((frequency, index) => {
-          linePieces[index].style.height = 1 + frequency + "px";
+          linePieces[index].style.height = `${1 + frequency}px`;
         });
       };
 
       async function startListening() {
         document.getElementById("startButton").classList.toggle("dn");
         document.getElementsByClassName("logo")[0].classList.toggle("dn");
+
         const stream = await navigator.mediaDevices.getUserMedia({
           audio: true
         });
