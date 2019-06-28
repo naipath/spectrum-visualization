@@ -3,112 +3,54 @@
   <body
     style="
   width: 100vw;
-
+margin: 0;
+padding: 0;
 height: 100vh;
 
 background-color: #eee;
   "
   >
-    <button onclick="doStuff()">do stuff</button>
-    <svg
-      width="200"
-      height="200"
-      id="leftBar"
-      style="position: absolute;
-      left: calc(50%);
-      top: 50%;
-      transform-origin: -20% -20%;
-      "
-      data-name="Laag 1"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 179.4 174.12"
-    >
-      <path
-        fill="#d9d9d9"
-        d="M124 105.53l55.4-39.58L58.04 0 0 31.66l124 73.87z"
-      />
-      <path fill="#1d1d1b" d="M124 105.53v68.59l55.4-29.02V65.95L124 105.53z" />
-      <path fill="#fff" d="M0 31.66v73.87l124 68.59v-68.59L0 31.66z" />
-    </svg>
-
-    <svg
-      width="200"
-      height="200"
-      id="rightBar"
-      style="position: absolute;
-      left: calc(50% - 200px);
-      top: 50%;
-      transform-origin: 90% -5%;
-      "
-      data-name="Laag 1"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 174.12 176.76"
-    >
-      <path
-        fill="#1d1d1b"
-        d="M58.04 105.53v71.23l116.08-68.59V34.3L58.04 105.53z"
-      />
-      <path
-        fill="#d9d9d9"
-        d="M174.12 34.3L116.08 0 0 68.59l58.04 36.94L174.12 34.3z"
-      />
-      <path fill="#fff" d="M0 68.59v73.87l58.04 34.3v-71.23L0 68.59z" />
-    </svg>
-    <svg
-      width="130"
-      id="topBar"
-      data-name="Laag 1"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 116.08 211.06"
+    <div
+      id="container"
       style="
-      position: absolute;
-
-top: calc(50% - 198px);
-transform-origin: 50% 90%;
-left: calc(50% - 66px);
-"
+height: 50vw;
+width: 50vw;
+position: absolute;
+top: 25vw;
+left: 25vw;
+    "
     >
-      <path
-        fill="#d9d9d9"
-        d="M116.08 36.94L58.04 0 0 36.94l58.04 34.29 58.04-34.29z"
-      />
-      <path fill="#fff" d="M58.04 71.23L0 36.94v139.82l58.04 34.3V71.23z" />
-      <path
-        fill="#1d1d1b"
-        d="M58.04 211.06l58.04-31.66V36.94L58.04 71.23v139.83z"
-      />
-    </svg>
-    
+  </div>
+    <button onclick="doStuff()">do stuff</button>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script>
-      const bars = [
-        document.getElementById("leftBar"),
-        document.getElementById("rightBar"),
-        document.getElementById("topBar")
-      ];
+      const container = document.getElementById("container");
+      const linePieces = [];
+      for (let linePiece = 0; linePiece < 256; linePiece++) {
+        const piece = document.createElement("div");
+
+        piece.style.cssText = `
+          height: 1px;
+          width: ${(1 / 256) * 100}%;
+          position: absolute;
+          top: ${Math.sin(linePiece / 256 * Math.PI) * 100}%;
+          left: ${Math.cos(linePiece / 256 * Math.PI) * 100}%;
+          background-color: rgb(${linePiece}, ${linePiece}, ${linePiece});
+          left: ${(linePiece / 256) * 100}%
+        `;
+
+        container.appendChild(piece);
+        linePieces.push(piece);
+      }
 
       const calculateStuff = array => {
         const frequencyArray = array.slice(0, 256);
-        const avgValues = [];
-        for (let index = 0; index < chunks; index++) {
-          const element = frequencyArray[index];
-          const length = frequencyArray.length;
-          const chunckArray = frequencyArray.slice(
-            index * (frequencyArray.length / chunks),
-            (index + 1) * (frequencyArray.length / chunks)
-          );
-          const avg =
-            chunckArray.reduce((acc, curr) => {
-              if (curr > 10) {
-                acc += curr;
-              }
-              return acc;
-            }, 0) / chunckArray.filter(i => i > 10).length;
-          avgValues.push(avg);
-          bars[index].style.transform = `scale(calc(1 + ${(avg / 256) *
-            2 *
-            (index + 1)}), calc(1 + ${(avg / 256) * 2 * (index + 1)}))`;
-        }
+        frequencyArray.forEach((frequency, index) => {
+          linePieces[index].style.height = 1 + frequency + "px";
+        });
       };
+
       const chunks = 3;
       const doDraw = (analyser, frequencyArray) => () => {
         requestAnimationFrame(doDraw(analyser, frequencyArray));
